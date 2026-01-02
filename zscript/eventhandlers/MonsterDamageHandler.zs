@@ -24,17 +24,17 @@ class MonsterDamageEventHandler : EventHandler {
 	
 	private void SpawnDamageIndicator(WorldEvent e) {
 		int numSpawned = 0;
-		int invr = random(0, 1);
 		int digiCount = e.Damage;		// Copy of the damage number
+
 		Vector3 randomVel = (
-			frandom(-1.0, 1.0),
-			frandom(-1.0, 1.0),
-			3.0
+			frandom(-0.5, 0.5),
+			frandom(-0.5, 0.5),
+			2.0
 		);
 		Vector3 spawnPos = (
-			e.Thing.pos.x + frandom(-1.0, 1.0),
-			e.Thing.pos.y + frandom(-1.0, 1.0),
-			e.Thing.pos.z + (0.85 * e.Thing.height)
+			e.Thing.pos.x + frandom(-2.0, 2.0),
+			e.Thing.pos.y + frandom(-2.0, 2.0),
+			e.Thing.pos.z + (0.85 * e.Thing.height) - (frandom(0.1, 0.5) * e.Thing.height)
 		);
 
 		Console.printf("%d", e.Damage);
@@ -43,9 +43,11 @@ class MonsterDamageEventHandler : EventHandler {
 		// Superior way of doing this?
 		while (digiCount > 0) {
 			Actor damageIndicator = Actor.Spawn("DamageIndicator", spawnPos);
-			(DamageIndicator(damageIndicator)).Init(digiCount % 10);
+
 			damageIndicator.A_SpriteOffset(-(16/2 * numSpawned), 0);
+			damageIndicator.frame = digiCount % 10;
 			damageIndicator.vel = randomVel;
+
 			digiCount /= 10;
 			numSpawned++;
 		}

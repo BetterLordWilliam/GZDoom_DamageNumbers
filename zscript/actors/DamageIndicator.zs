@@ -1,13 +1,15 @@
 class DamageIndicator : Actor {
 	int maxLifeTicks;
-	int damageAmount;
 	int lifeTicks;
+	int damageAmount;
 	
-// 	property MaxLifeTicks: maxLifeTicks;
-// 	property LifeTicks: lifeTicks;
+	property MaxLifeTicks: maxLifeTicks;
+	property LifeTicks: lifeTicks;
+	property DamageAmount: damageAmount;
 	
 	Default {
 		-SOLID;
+		+NOCLIP;
 		+NOGRAVITY;
 		+BRIGHT;
 		+BILLBOARDFACECAMERA;
@@ -16,44 +18,28 @@ class DamageIndicator : Actor {
 		+NOTRIGGER;
 		+NOINTERACTION;
 		+CLIENTSIDEONLY;
+		
+		RenderStyle 'Translucent';
+		Alpha 1.0;
 
-		Projectile;
+		DamageIndicator.MaxLifeTicks 25;
+		DamageIndicator.LifeTicks 0;
 	}
 	
 	States {
 		Spawn:
 			DGIT # 1;
 			Loop;
-		Death:
-			Stop;
-	}
-	
-	void Init(int damageAmount) {
-// 		Console.printf("DIGIT INITIALIZED");
-		
-		
-		self.lifeTicks = 0;
-		self.maxLifeTicks = 75;
-		self.damageAmount = damageAmount;
-		self.sprite = GetSpriteIndex("DGIT");
-		self.frame = self.damageAmount;
 	}
 	
 	override void Tick() {
 		Super.Tick();
 		
-		lifeTicks = lifeTicks + 1;
+		LifeTicks = LifeTicks + 1;
+		Alpha = 1.0 - (float(LifeTicks) / float(MaxLifeTicks));
 		
-// 		Console.printf("I AM TICKING");
-		
-		if (lifeTicks == maxLifeTicks) {
-			SetStateLabel("Death");
-// 			Console.printf("I AM DYING");
-			return;
+		if (LifeTicks == MaxLifeTicks) {
+			Destroy();
 		}
-
-// 		if (lifeTicks % 10 == 0) {
-// 			scale *= 0.9;
-// 		}
 	}
 }
