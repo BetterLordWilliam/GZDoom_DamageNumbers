@@ -1,13 +1,3 @@
-
-// 		TextureID digiTexId = TexMan.CheckForTexture("DGITA0", TexMan.Type_Sprite);
-			
-// 		if (!digiTexId.Exists()) {
-// 			Console.printf("[ERROR] TEXTURE DOES NOT EXIST");
-// 			return;
-// 		}
-			
-// 		Vector2 digiTexSize = TexMan.GetScaledSize(digiTexId);
-
 class MonsterDamageEventHandler : EventHandler {
 
 	override void WorldThingDamaged(WorldEvent e) {
